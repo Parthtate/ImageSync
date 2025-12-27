@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ==================== Middleware ====================
-// CORS - Allow all origins (simplest fix)
+// CORS - Allow all origins
 app.use(cors());
 
 app.use(express.json());
