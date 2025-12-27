@@ -115,8 +115,8 @@ async function startServer() {
     app.listen(PORT, '0.0.0.0', () => {
       console.log('\n================================');
       console.log(`✅ API Service running on port ${PORT}`);
-      console.log(`🌐 Railway URL: https://imagesync-api-production.up.railway.app`);
-      console.log(`📚 API Docs: https://imagesync-api-production.up.railway.app/api`);
+      console.log(`🌐 Local URL: http://localhost:${PORT}`);
+      console.log(`📚 API Docs: http://localhost:${PORT}/api`);
       console.log('================================\n');
     });
 

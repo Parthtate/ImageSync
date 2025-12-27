@@ -1,4 +1,5 @@
-require('dotenv').config();
+import 'dotenv/config';
+import { Pool } from 'pg';
 
 console.log('🔍 Database Connection Diagnostics\n');
 console.log('═══════════════════════════════════════════════════════════════');
@@ -33,7 +34,6 @@ try {
 
 // Test connection with detailed error handling
 console.log('\n🔌 Testing Connection...');
-const { Pool } = require('pg');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

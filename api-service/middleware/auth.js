@@ -1,4 +1,4 @@
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -40,4 +40,4 @@ async function authenticateRequest(req, res, next) {
   }
 }
 
-module.exports = { authenticateRequest };
+export { authenticateRequest };

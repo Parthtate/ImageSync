@@ -1,4 +1,4 @@
-const { google } = require("googleapis");
+import { google } from "googleapis";
 
 // Initialize Google Drive API with API Key (for public folders)
 const drive = google.drive({
@@ -99,7 +99,7 @@ async function getFileMetadata(fileId) {
   }
 }
 
-module.exports = {
+export {
   listFilesInFolder,
   downloadFile,
   getFileMetadata,

@@ -1,6 +1,6 @@
 // Simple script to verify Supabase client (storage buckets list)
-require("dotenv").config();
-const supabase = require("./config/supabase");
+import "dotenv/config";
+import { supabase } from "./config/supabase.js";
 
 async function run() {
   try {

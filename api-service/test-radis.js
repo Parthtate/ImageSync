@@ -1,5 +1,5 @@
-require("dotenv").config();
-const { Redis } = require("ioredis");
+import "dotenv/config";
+import { Redis } from "ioredis";
 
 console.log("🧪 Testing Upstash Redis connection...\n");
 

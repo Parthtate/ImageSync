@@ -1,9 +1,9 @@
-require("dotenv").config();
-const { Worker } = require("bullmq");
-const { Redis } = require("ioredis");
-const { Pool } = require("pg");
-const { listFilesInFolder, downloadFile } = require("./config/googleDrive");
-const { uploadToSupabase } = require("./config/supabase");
+import "dotenv/config";
+import { Worker } from "bullmq";
+import { Redis } from "ioredis";
+import { Pool } from "pg";
+import { listFilesInFolder, downloadFile } from "./config/googleDrive.js";
+import { uploadToSupabase } from "./config/supabase.js";
 
 // Initialize Redis connection
 const connection = new Redis({
