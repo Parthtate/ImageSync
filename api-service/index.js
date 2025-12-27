@@ -10,8 +10,12 @@ const PORT = process.env.PORT || 3000;
 
 // ==================== Middleware ====================
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: [
+    'http://localhost:5173',
+    'https://imagesync.vercel.app', // Your actual Vercel URL
+    'https://*.vercel.app' // All Vercel preview deployments
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
 
