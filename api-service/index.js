@@ -9,20 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ==================== Middleware ====================
-// CORS Configuration - Allow Vercel frontend
-app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'https://imagesync.vercel.app',
-    /https:\/\/.*\.vercel\.app$/  // Allow all Vercel preview deployments
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  exposedHeaders: ['Content-Type'],
-  maxAge: 86400
-}));
+// CORS - Allow all origins (simplest fix)
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
