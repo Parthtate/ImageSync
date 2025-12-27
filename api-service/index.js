@@ -13,8 +13,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors({
   origin: [
     'http://localhost:5173',
+    'http://localhost:5174',
     'https://imagesync.vercel.app',
-    'https://*.vercel.app'
+    /https:\/\/.*\.vercel\.app$/  // Allow all Vercel preview deployments
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
@@ -22,9 +23,6 @@ app.use(cors({
   exposedHeaders: ['Content-Type'],
   maxAge: 86400
 }));
-
-// ❌ REMOVE THIS LINE:
-// app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
