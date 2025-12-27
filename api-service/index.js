@@ -9,15 +9,22 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ==================== Middleware ====================
+// CORS Configuration - Allow Vercel frontend
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://imagesync.vercel.app', // Your actual Vercel URL
-    'https://*.vercel.app' // All Vercel preview deployments
+    'https://imagesync.vercel.app',
+    'https://*.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Type'],
+  maxAge: 86400 // 24 hours
 }));
+
+// Handle preflight requests explicitly
+app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -99,11 +106,11 @@ async function startServer() {
       }
     });
 
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log('\n================================');
       console.log(`✅ API Service running on port ${PORT}`);
-      console.log(`🌐 URL: http://localhost:${PORT}`);
-      console.log(`📚 API Docs: http://localhost:${PORT}/api`);
+      console.log(`🌐 Railway URL: https://imagesync-api-production.up.railway.app`);
+      console.log(`📚 API Docs: https://imagesync-api-production.up.railway.app/api`);
       console.log('================================\n');
     });
 
