@@ -10,7 +10,6 @@ const PORT = process.env.PORT || 3000;
 
 // ==================== Middleware ====================
 const allowedOrigins = [
-  'https://imagesync.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000'
 ];
@@ -20,7 +19,7 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+    if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       console.log('Blocked by CORS:', origin);
