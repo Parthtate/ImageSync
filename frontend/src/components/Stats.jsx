@@ -33,7 +33,7 @@ function Stats() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -42,32 +42,28 @@ function Stats() {
 
   const statCards = [
     {
-      icon: "Images",
+      label: "Total Images",
       value: stats.totalImages,
-      sub: "Total Imported",
-      color: "text-white",
-      border: "border-dark-700",
+      sub: "Across all sources",
+      valueColor: "text-white"
     },
     {
-      icon: "Storage",
+      label: "Storage Used",
       value: formatSize(stats.totalSize),
-      sub: "Space Used",
-      color: "text-primary-400",
-      border: "border-primary-900/50",
+      sub: "Optimized",
+      valueColor: "text-primary-400"
     },
     {
-      icon: "Activity",
-      value: "+" + stats.recentImports24h || 0,
-      sub: "Last 24h",
-      color: "text-blue-400",
-      border: "border-blue-900/50",
+      label: "Recent Activity",
+      value: "+" + (stats.recentImports24h || 0),
+      sub: "Images in 24h",
+      valueColor: "text-white"
     },
     {
-      icon: "Sources",
+      label: "Sources",
       value: Object.keys(stats.bySource).length,
-      sub: "Active Channels",
-      color: "text-purple-400",
-      border: "border-purple-900/50",
+      sub: "Connected",
+      valueColor: "text-white"
     },
   ];
 
@@ -76,15 +72,15 @@ function Stats() {
       {statCards.map((stat, index) => (
         <div
           key={index}
-          className={`p-5 rounded-2xl bg-dark-900/50 border ${stat.border} hover:bg-dark-900 transition-colors backdrop-blur-sm group`}
+          className="p-5 rounded-xl bg-dark-900/40 border border-dark-800/60 hover:bg-dark-900/60 transition-colors"
         >
-          <div className="text-xs font-medium text-dark-500 uppercase tracking-widest mb-3">
-            {stat.icon}
+          <div className="text-[10px] font-bold text-dark-500 uppercase tracking-widest mb-2">
+            {stat.label}
           </div>
-          <div className={`text-2xl font-bold ${stat.color} mb-1 group-hover:scale-105 transition-transform origin-left`}>
+          <div className={`text-2xl font-bold ${stat.valueColor} mb-1 font-mono tracking-tight`}>
             {stat.value}
           </div>
-          <div className="text-xs text-dark-400">
+          <div className="text-xs text-dark-500 font-medium">
             {stat.sub}
           </div>
         </div>

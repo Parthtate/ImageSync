@@ -1,29 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #f0fdf4;
-  --color-primary-100: #dcfce7;
-  --color-primary-200: #bbf7d0;
-  --color-primary-300: #86efac;
-  --color-primary-400: #4ade80;
-  --color-primary-500: #22c55e;
-  --color-primary-600: #16a34a;
-  --color-primary-700: #15803d;
-  --color-primary-800: #166534;
-  --color-primary-900: #14532d;
-  --color-primary-950: #052e16;
+  /* Primary: Emerald */
+  --color-primary-50: #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
+  --color-primary-950: #022c22;
 
-  --color-dark-50: #f9fafb;
-  --color-dark-100: #f3f4f6;
-  --color-dark-200: #e5e7eb;
-  --color-dark-300: #d1d5db;
-  --color-dark-400: #9ca3af;
-  --color-dark-500: #6b7280;
-  --color-dark-600: #4b5563;
-  --color-dark-700: #374151;
-  --color-dark-800: #1f2937;
-  --color-dark-900: #111827;
-  --color-dark-950: #030712;
+  /* Dark: Zinc (Matte/Neutral) */
+  --color-dark-50: #fafafa;
+  --color-dark-100: #f4f4f5;
+  --color-dark-200: #e4e4e7;
+  --color-dark-300: #d4d4d8;
+  --color-dark-400: #a1a1aa;
+  --color-dark-500: #71717a;
+  --color-dark-600: #52525b;
+  --color-dark-700: #3f3f46;
+  --color-dark-800: #27272a;
+  --color-dark-900: #18181b;
+  --color-dark-950: #09090b;
 }
 
 body {

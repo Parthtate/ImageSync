@@ -34,31 +34,32 @@ function AuthGuard({ children }) {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-dark-950 relative overflow-hidden">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-900/20 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-primary-900/10 rounded-full blur-[120px] pointer-events-none"></div>
-
-        <div className="relative z-10 w-full max-w-md mx-4">
-            <div className="bg-zinc-200 rounded-3xl p-10 shadow-2xl border border-zinc-200">
-                <div className="text-center mb-10">
-                    <h4 className="text-5xl font-extrabold tracking-tight text-dark-900 mb-2">
-                        Image<span className="text-primary-600">Sync</span>
-                    </h4>
-                    <p className="text-dark-500 mt-4">
-                        Sign in to manage your image synchronization
+      <div className="min-h-screen flex items-center justify-center bg-dark-950 selection:bg-primary-500 selection:text-white">
+        <div className="w-full max-w-sm px-6">
+            <div className="bg-dark-800 rounded-xl border border-dark-900 p-10">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold text-white tracking-tight mb-3">
+                        Image<span className="text-primary-500">Sync</span>
+                    </h1>
+                    <p className="text-dark-400 text-sm">
+                        Sign in to continue
                     </p>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                     <LoginButton />
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-zinc-200 text-center text-xs text-dark-500">
-                    <p className="mb-2">By continuing, you verify that you are an authorized user.</p>
-                    <p className="text-dark-400 font-medium">&copy; 2025 ImageSync System</p>
+                <div className="mt-8 pt-6 border-t border-dark-600 text-center">
+                    <p className="text-dark-200 text-xs">
+                        Secure authentication via Google
+                    </p>
                 </div>
             </div>
+            
+            <p className="text-center text-dark-600 text-xs mt-8">
+                &copy; 2025 ImageSync System
+            </p>
         </div>
       </div>
     );

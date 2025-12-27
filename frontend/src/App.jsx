@@ -22,19 +22,12 @@ function App() {
   return (
     <AuthGuard>
       {(user) => (
-        <div className="min-h-screen bg-dark-950 text-white selection:bg-primary-500 selection:text-white">
-          {/* Background Gradient Orbs */}
-          <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-900/20 rounded-full blur-[120px]"></div>
-            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-primary-900/10 rounded-full blur-[120px]"></div>
-          </div>
-
+        <div className="min-h-screen bg-dark-950 text-white selection:bg-primary-500 selection:text-white font-sans antialiased">
           {/* Header */}
-          <header className="sticky z-50 border-b border-dark-800 bg-blue-950/80 backdrop-blur-md top-0">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <header className="sticky z-50 border-b border-dark-800 bg-dark-900 top-0">
+            <div className="max-w-7xl mx-auto px-6 py-5">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <img src="/Logo.png" alt="ImageSync Logo" className="w-10 h-10 object-contain" />
+                <div className="flex items-center gap-2">
                   <h1 className="text-xl font-bold tracking-tight text-white">
                     Image<span className="text-primary-500">Sync</span>
                   </h1>
@@ -46,40 +39,53 @@ function App() {
           </header>
 
           {/* Main Content */}
-          <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-                <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-dark-400">
-                    Seamless Image Import
-                </h2>
-                <p className="text-lg text-dark-400">
-                    Synchronize your Google Drive assets with our high-performance import engine. Fast, secure, and reliable.
-                </p>
-            </div>
+          <main className="max-w-7xl mx-auto px-6 py-12 space-y-10">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-dark-800/60">
+                <div className="max-w-2xl">
+                    <h2 className="text-3xl font-bold tracking-tight text-white mb-2">
+                        Dashboard
+                    </h2>
+                    <p className="text-dark-400 text-base">
+                        Manage your Google Drive imports and gallery assets.
+                    </p>
+                </div>
+                <div className="flex items-center gap-3">
+                   {/* Actions or Stats summary could go here later */}
+                </div>
+            </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Left Column: Import & Status */}
                 <div className="lg:col-span-8 space-y-8">
                     <ImportForm onImportStart={handleImportStart} />
+                    
                     {currentJob && (
-                    <JobStatus jobId={currentJob} onComplete={handleJobComplete} />
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                             <JobStatus jobId={currentJob} onComplete={handleJobComplete} />
+                        </div>
                     )}
+                    
                     <ImageGallery refresh={refreshGallery} />
                 </div>
-                <div className="lg:col-span-4 space-y-8">
+
+                {/* Right Column: Stats & Info */}
+                <div className="lg:col-span-4 space-y-6">
                     <Stats />
-                    <div className="p-6 rounded-2xl bg-dark-900/50 border border-dark-800 backdrop-blur-sm">
-                        <h3 className="text-sm font-semibold text-dark-300 uppercase tracking-wider mb-4">Quick Tips</h3>
-                        <ul className="space-y-3 text-sm text-dark-400">
-                            <li className="flex items-start gap-2">
-                            <span className="text-primary-500 mt-1">✓</span>
-                            Ensure Google Drive folders are public.
+                    
+                    <div className="p-6 rounded-xl bg-dark-900/40 border border-dark-800/60">
+                        <h3 className="text-xs font-semibold text-dark-400 uppercase tracking-widest mb-4">Quick Guide</h3>
+                        <ul className="space-y-4 text-sm text-dark-400">
+                            <li className="flex gap-3">
+                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">1</span>
+                                <span>Paste a public Google Drive folder URL.</span>
                             </li>
-                            <li className="flex items-start gap-2">
-                            <span className="text-primary-500 mt-1">✓</span>
-                            Imports are processed in background queues.
+                            <li className="flex gap-3">
+                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">2</span>
+                                <span>Wait for the background worker to process images.</span>
                             </li>
-                            <li className="flex items-start gap-2">
-                            <span className="text-primary-500 mt-1">✓</span>
-                            Supported formats: JPG, PNG, WEBP.
+                            <li className="flex gap-3">
+                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">3</span>
+                                <span>View and filter your imported assets below.</span>
                             </li>
                         </ul>
                     </div>
@@ -88,11 +94,13 @@ function App() {
           </main>
 
           {/* Footer */}
-          <footer className="relative z-10 border-t border-dark-800 bg-dark-950 text-dark-500 mt-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center text-sm">
-              <p>
-                &copy; 2025 ImageSync System. Built for performance.
-              </p>
+          <footer className="border-t border-dark-800 mt-20 bg-dark-900">
+            <div className="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center text-sm text-dark-500">
+              <p>&copy; 2025 ImageSync.</p>
+              <div className="flex gap-4">
+                  <a href="#" className="hover:text-dark-300 transition-colors">Privacy</a>
+                  <a href="#" className="hover:text-dark-300 transition-colors">Terms</a>
+              </div>
             </div>
           </footer>
         </div>
