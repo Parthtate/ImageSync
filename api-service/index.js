@@ -20,11 +20,11 @@ app.use(cors({
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Type'],
-  maxAge: 86400 // 24 hours
+  maxAge: 86400
 }));
 
-// Handle preflight requests explicitly
-app.options('*', cors());
+// ❌ REMOVE THIS LINE:
+// app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
