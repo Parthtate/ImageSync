@@ -76,15 +76,15 @@ function App() {
                         <h3 className="text-xs font-semibold text-dark-400 uppercase tracking-widest mb-4">Quick Guide</h3>
                         <ul className="space-y-4 text-sm text-dark-400">
                             <li className="flex gap-3">
-                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">1</span>
+                                <span className="shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">1</span>
                                 <span>Paste a public Google Drive folder URL.</span>
                             </li>
                             <li className="flex gap-3">
-                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">2</span>
+                                <span className="shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">2</span>
                                 <span>Wait for the background worker to process images.</span>
                             </li>
                             <li className="flex gap-3">
-                                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">3</span>
+                                <span className="shrink-0 w-5 h-5 rounded-full bg-dark-800 flex items-center justify-center text-xs text-dark-300 font-mono">3</span>
                                 <span>View and filter your imported assets below.</span>
                             </li>
                         </ul>
