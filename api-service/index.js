@@ -47,6 +47,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Explicit OPTIONS handler for preflight requests
+app.options('*', cors());
+
 // ==================== Routes ====================
 app.use('/api', routes);
 
