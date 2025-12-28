@@ -67,7 +67,7 @@ The system implements a multi-service microservices architecture with three inde
 - Handles retries and error recovery
 - Technology: Node.js, BullMQ, Google Drive API, Supabase SDK
 
-**Communication Flow:**
+**4. Communication Flow:**
 - Frontend sends HTTP requests to API Service
 - API Service creates jobs in Redis queue
 - Worker Service consumes jobs from queue
@@ -166,5 +166,4 @@ Access at http://localhost:5173
 
 ## Author
 
-Parth Tate  
-GitHub: [@Parthtate](https://github.com/Parthtate)
+Parth Tate
