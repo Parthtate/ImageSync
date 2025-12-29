@@ -8,7 +8,6 @@ import { connection } from './config/redis.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ==================== Middleware ====================
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
@@ -47,10 +46,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// ==================== Routes ====================
 app.use('/api', routes);
 
-// Root endpoint
 app.get('/', (req, res) => {
   res.json({
     message: 'Image Import System API',
@@ -65,8 +62,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// ==================== Error Handling ====================
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -75,9 +70,8 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
-  console.error('❌ Unhandled error:', err);
+  console.error('Unhandled error:', err);
   res.status(err.status || 500).json({
     success: false,
     error: err.message || 'Internal Server Error',
@@ -85,30 +79,27 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ==================== Graceful Shutdown ====================
 process.on('SIGTERM', async () => {
-  console.log('\n🛑 SIGTERM received. Shutting down gracefully...');
+  console.log('\n SIGTERM received. Shutting down gracefully...');
   await connection.quit();
   process.exit(0);
 });
 
 process.on('SIGINT', async () => {
-  console.log('\n🛑 SIGINT received. Shutting down gracefully...');
+  console.log('\n SIGINT received. Shutting down gracefully...');
   await connection.quit();
   process.exit(0);
 });
-
-// ==================== Start Server ====================
 async function startServer() {
   try {
-    console.log('🔌 Testing database connection...');
+    console.log('\n Testing database connection...');
     const dbConnected = await testConnection();
     
     if (!dbConnected) {
       throw new Error('Database connection failed');
     }
 
-    console.log('🔌 Connecting to Redis...');
+    console.log('\n Connecting to Redis...');
     await new Promise((resolve, reject) => {
       if (connection.status === 'ready') {
         resolve();
@@ -119,15 +110,13 @@ async function startServer() {
     });
 
     app.listen(PORT, '0.0.0.0', () => {
-      console.log('\n================================');
-      console.log(`✅ API Service running on port ${PORT}`);
-      console.log(`🌐 Local URL: http://localhost:${PORT}`);
-      console.log(`📚 API Docs: http://localhost:${PORT}/api`);
-      console.log('================================\n');
+      console.log(`API Service running on port ${PORT}`);
+      console.log(`Local URL: http://localhost:${PORT}`);
+      console.log(`API Docs: http://localhost:${PORT}/api`);
     });
 
   } catch (error) {
-    console.error('❌ Failed to start server:', error.message);
+    console.error('Failed to start server:', error.message);
     process.exit(1);
   }
 }

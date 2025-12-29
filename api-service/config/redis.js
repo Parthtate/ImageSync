@@ -17,15 +17,15 @@ const connection = new Redis({
 
 // Connection event handlers
 connection.on('connect', () => {
-  console.log('✓ Redis connected successfully');
+  console.log('Redis connected successfully');
 });
 
 connection.on('ready', () => {
-  console.log('✓ Redis is ready');
+  console.log('Redis is ready');
 });
 
 connection.on('error', (err) => {
-  console.error('✗ Redis connection error:', err.message);
+  console.error('Redis connection error:', err.message);
 });
 
 // Create BullMQ Queue for image import jobs
@@ -49,7 +49,7 @@ const importQueue = new Queue('image-import', {
 
 // Queue event handlers
 importQueue.on('error', (err) => {
-  console.error('✗ Queue error:', err);
+  console.error('Queue error:', err);
 });
 
 export { importQueue, connection };

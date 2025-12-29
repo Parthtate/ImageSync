@@ -13,7 +13,7 @@ const drive = google.drive({
  */
 async function listFilesInFolder(folderId) {
   try {
-    console.log(`📂 Listing files in folder: ${folderId}`);
+    console.log(`Listing files in folder: ${folderId}`);
 
     const response = await drive.files.list({
       q: `'${folderId}' in parents and mimeType contains 'image/' and trashed=false`,
@@ -25,11 +25,11 @@ async function listFilesInFolder(folderId) {
     });
 
     const files = response.data.files || [];
-    console.log(`✓ Found ${files.length} image(s) in folder`);
+    console.log(`Found ${files.length} image(s) in folder`);
 
     return files;
   } catch (error) {
-    console.error("❌ Error listing files:", error.message);
+    console.error("Error listing files:", error.message);
 
     if (error.code === 404) {
       throw new Error(
@@ -52,7 +52,7 @@ async function listFilesInFolder(folderId) {
  */
 async function downloadFile(fileId) {
   try {
-    console.log(`⬇️  Downloading file: ${fileId}`);
+    console.log(`Downloading file: ${fileId}`);
 
     const response = await drive.files.get(
       {
@@ -65,7 +65,7 @@ async function downloadFile(fileId) {
 
     return response.data;
   } catch (error) {
-    console.error(`❌ Error downloading file ${fileId}:`, error.message);
+    console.error(`Error downloading file ${fileId}:`, error.message);
 
     if (error.code === 404) {
       throw new Error("File not found or not accessible.");
@@ -94,7 +94,7 @@ async function getFileMetadata(fileId) {
 
     return response.data;
   } catch (error) {
-    console.error(`❌ Error getting metadata for ${fileId}:`, error.message);
+    console.error(`Error getting metadata for ${fileId}:`, error.message);
     throw error;
   }
 }

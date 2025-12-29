@@ -229,7 +229,7 @@ export const deleteImage = async (req, res) => {
 // POST /api/images/sync
 export const syncImages = async (req, res) => {
   try {
-    console.log('🔄 Starting gallery sync...');
+    console.log('Starting gallery sync...');
     
     // 1. Get all images from DB
     const result = await pool.query('SELECT * FROM images');
@@ -249,7 +249,7 @@ export const syncImages = async (req, res) => {
           const exists = await checkFileExists(img.storage_path);
           
           if (!exists) {
-            console.log(`🗑️ Found orphaned record: ${img.name} (ID: ${img.id})`);
+            console.log(`Found orphaned record: ${img.name} (ID: ${img.id})`);
             await pool.query('DELETE FROM images WHERE id = $1', [img.id]);
             removedIds.push(img.id);
           }

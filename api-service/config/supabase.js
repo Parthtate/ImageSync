@@ -30,7 +30,7 @@ export async function deleteFileFromStorage(publicUrl) {
       .remove([filePath]);
 
     if (error) {
-      console.error("❌ Delete storage error:", error);
+      console.error("Delete storage error:", error);
       return false;
     }
 

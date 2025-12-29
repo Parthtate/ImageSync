@@ -41,7 +41,7 @@ export const importFromGoogleDrive = async (req, res) => {
       });
     }
 
-    console.log(`📥 Import request received for folder: ${folderId}`);
+    console.log(`Import request received for folder: ${folderId}`);
 
     const job = await importQueue.add(
       'import-drive-folder',
@@ -60,7 +60,7 @@ export const importFromGoogleDrive = async (req, res) => {
       }
     );
 
-    console.log(`✓ Job created with ID: ${job.id}`);
+    console.log(`Job created with ID: ${job.id}`);
 
     res.status(202).json({
       success: true,
@@ -74,7 +74,7 @@ export const importFromGoogleDrive = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Import error:', error);
+    console.error('Import error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to start import',
@@ -102,7 +102,7 @@ export const importFromDropbox = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Dropbox import error:', error);
+    console.error('Dropbox import error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to start import',

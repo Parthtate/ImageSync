@@ -24,7 +24,7 @@ async function uploadToSupabase(fileStream, fileName, mimeType) {
       fileStream.on("data", (chunk) => chunks.push(chunk));
 
       fileStream.on("error", (error) => {
-        console.error("❌ Stream error:", error);
+        console.error("Stream error:", error);
         reject(error);
       });
 
@@ -47,7 +47,7 @@ async function uploadToSupabase(fileStream, fileName, mimeType) {
             });
 
           if (error) {
-            console.error("❌ Upload error:", error);
+            console.error("Upload error:", error);
             throw error;
           }
 
@@ -56,7 +56,7 @@ async function uploadToSupabase(fileStream, fileName, mimeType) {
             data: { publicUrl },
           } = supabase.storage.from("imported-images").getPublicUrl(filePath);
 
-          console.log(`✓ Uploaded successfully: ${publicUrl}`);
+          console.log(`Uploaded successfully: ${publicUrl}`);
           resolve(publicUrl);
         } catch (err) {
           reject(err);
@@ -64,7 +64,7 @@ async function uploadToSupabase(fileStream, fileName, mimeType) {
       });
     });
   } catch (error) {
-    console.error(`❌ Error uploading ${fileName}:`, error.message);
+    console.error(`Error uploading ${fileName}:`, error.message);
     throw error;
   }
 }

@@ -2,12 +2,12 @@ import 'dotenv/config';
 import { pool, testConnection } from './config/database.js';
 
 async function testDatabase() {
-  console.log('🧪 Testing database connection...\n');
+  console.log('Testing database connection...\n');
 
   // Test 1: Connection
   const connected = await testConnection();
   if (!connected) {
-    console.error('❌ Connection failed');
+    console.error('Connection failed');
     process.exit(1);
   }
 
@@ -20,20 +20,20 @@ async function testDatabase() {
     `);
     
     if (result.rows.length > 0) {
-      console.log('✓ Table "images" exists');
+      console.log('Table "images" exists');
     } else {
-      console.log('✗ Table "images" does not exist');
+      console.log('Table "images" does not exist');
     }
   } catch (error) {
-    console.error('✗ Error checking table:', error.message);
+    console.error('Error checking table:', error.message);
   }
 
   // Test 3: Count records
   try {
     const result = await pool.query('SELECT COUNT(*) FROM images');
-    console.log(`✓ Total images in database: ${result.rows[0].count}`);
+    console.log(`Total images in database: ${result.rows[0].count}`);
   } catch (error) {
-    console.error('✗ Error counting records:', error.message);
+    console.error('Error counting records:', error.message);
   }
 
   // Test 4: Test insert (optional)
@@ -54,18 +54,18 @@ async function testDatabase() {
       [testData.name, testData.google_drive_id, testData.size, testData.mime_type, testData.storage_path, testData.source]
     );
 
-    console.log(`✓ Test insert successful, ID: ${insertResult.rows[0].id}`);
+    console.log(`Test insert successful, ID: ${insertResult.rows[0].id}`);
 
     // Clean up test data
     await pool.query('DELETE FROM images WHERE source = $1', ['test']);
-    console.log('✓ Test data cleaned up');
+    console.log('Test data cleaned up');
 
   } catch (error) {
-    console.error('✗ Error with test insert:', error.message);
+    console.error('Error with test insert:', error.message);
   }
 
   await pool.end();
-  console.log('\n✅ Database tests complete!');
+  console.log('\nDatabase tests complete!');
 }
 
 testDatabase();

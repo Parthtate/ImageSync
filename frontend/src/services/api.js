@@ -3,7 +3,7 @@ import axios from 'axios';
 // Use environment variable for production, fallback to localhost for dev
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
-console.log('🌐 API URL:', API_URL);
+console.log('API URL:', API_URL);
 
 const api = axios.create({
   baseURL: API_URL,
@@ -16,7 +16,7 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
-    console.log('📤 Request:', config.method.toUpperCase(), config.url);
+    console.log('Request:', config.method.toUpperCase(), config.url);
     return config;
   },
   (error) => {
@@ -27,11 +27,11 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response) => {
-    console.log('📥 Response:', response.status, response.config.url);
+    console.log('Response:', response.status, response.config.url);
     return response;
   },
   (error) => {
-    console.error('❌ API Error:', error.message);
+    console.error('API Error:', error.message);
     
     if (error.response) {
       console.error('Status:', error.response.status);

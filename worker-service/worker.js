@@ -24,15 +24,15 @@ const pool = new Pool({
 
 // Test connections on startup
 connection.on("connect", () => {
-  console.log("✓ Worker connected to Redis");
+  console.log("Worker connected to Redis");
 });
 
 connection.on("error", (err) => {
-  console.error("✗ Redis error:", err.message);
+  console.error("Redis error:", err.message);
 });
 
 pool.on("error", (err) => {
-  console.error("✗ Database error:", err.message);
+  console.error("Database error:", err.message);
 });
 
 /**
@@ -53,12 +53,12 @@ const worker = new Worker(
     try {
       // Step 1: List all images in the folder
       await job.updateProgress(10);
-      console.log("📋 Step 1: Listing files from Google Drive...");
+      console.log("Step 1: Listing files from Google Drive...");
 
       const files = await listFilesInFolder(folderId);
 
       if (files.length === 0) {
-        console.log("⚠️  No images found in folder");
+        console.log("No images found in folder");
         return {
           success: true,
           message: "No images found in folder",
@@ -69,7 +69,7 @@ const worker = new Worker(
         };
       }
 
-      console.log(`✓ Found ${files.length} image(s)\n`);
+      console.log(`Found ${files.length} image(s)\n`);
 
       let processed = 0;
       let failed = 0;
@@ -91,17 +91,17 @@ const worker = new Worker(
           );
 
           if (existsQuery.rows.length > 0) {
-            console.log(`  ⏭️  Already imported, skipping...`);
+            console.log(`Already imported, skipping...`);
             skipped++;
             continue;
           }
 
           // Download from Google Drive
-          console.log(`  📥 Downloading from Google Drive...`);
+          console.log(`Downloading from Google Drive...`);
           const fileStream = await downloadFile(file.id);
 
           // Upload to Supabase Storage
-          console.log(`  ☁️  Uploading to Supabase Storage...`);
+          console.log(`Uploading to Supabase Storage...`);
           const publicUrl = await uploadToSupabase(
             fileStream,
             file.name,
@@ -109,7 +109,7 @@ const worker = new Worker(
           );
 
           // Save metadata to database
-          console.log(`  💾 Saving metadata to database...`);
+          console.log(`Saving metadata to database...`);
           await pool.query(
             `INSERT INTO images (name, google_drive_id, size, mime_type, storage_path, source)
            VALUES ($1, $2, $3, $4, $5, $6)`,
@@ -124,10 +124,10 @@ const worker = new Worker(
           );
 
           processed++;
-          console.log(`  ✅ Successfully imported!`);
+          console.log(`Successfully imported!`);
         } catch (error) {
           failed++;
-          console.error(`  ❌ Failed: ${error.message}`);
+          console.error(`Failed: ${error.message}`);
 
           // Continue with next file instead of stopping
           continue;
@@ -147,15 +147,15 @@ const worker = new Worker(
       };
 
       console.log(`\n${"=".repeat(60)}`);
-      console.log(`✅ Job ${jobId} Completed`);
+      console.log(`Job ${jobId} Completed`);
       console.log(
-        `📊 Results: ${processed} processed | ${failed} failed | ${skipped} skipped`
+        `Results: ${processed} processed | ${failed} failed | ${skipped} skipped`
       );
       console.log(`${"=".repeat(60)}\n`);
 
       return result;
     } catch (error) {
-      console.error(`\n❌ Job ${jobId} Failed:`, error.message);
+      console.error(`Job ${jobId} Failed:`, error.message);
       console.error(`${"=".repeat(60)}\n`);
       throw error;
     }
@@ -172,20 +172,20 @@ const worker = new Worker(
 
 // Worker event handlers
 worker.on("completed", (job) => {
-  console.log(`✅ Job ${job.id} completed successfully`);
+  console.log(`Job ${job.id} completed successfully`);
 });
 
 worker.on("failed", (job, err) => {
-  console.error(`❌ Job ${job.id} failed:`, err.message);
+  console.error(`Job ${job.id} failed:`, err.message);
 });
 
 worker.on("error", (err) => {
-  console.error("❌ Worker error:", err);
+  console.error("Worker error:", err);
 });
 
 // Graceful shutdown
 process.on("SIGTERM", async () => {
-  console.log("\n🛑 SIGTERM received, closing worker...");
+  console.log("\nSIGTERM received, closing worker...");
   await worker.close();
   await connection.quit();
   await pool.end();
@@ -193,14 +193,14 @@ process.on("SIGTERM", async () => {
 });
 
 process.on("SIGINT", async () => {
-  console.log("\n🛑 SIGINT received, closing worker...");
+  console.log("\nSIGINT received, closing worker...");
   await worker.close();
   await connection.quit();
   await pool.end();
   process.exit(0);
 });
 
-console.log("\n🎯 Worker Service Started");
-console.log("👂 Listening for jobs on queue: image-import");
-console.log("⚙️  Concurrency: 5 jobs at a time");
-console.log("🔄 Waiting for jobs...\n");
+console.log("\nWorker Service Started");
+console.log("Listening for jobs on queue: image-import");
+console.log("Concurrency: 5 jobs at a time");
+console.log("Waiting for jobs...\n");

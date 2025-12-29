@@ -14,11 +14,11 @@ const pool = new Pool({
 
 // Test connection
 pool.on('connect', () => {
-  console.log('✓ Database connected successfully');
+  console.log('Database connected successfully');
 });
 
 pool.on('error', (err) => {
-  console.error('✗ Unexpected database error:', err);
+  console.error('Unexpected database error:', err);
   process.exit(-1);
 });
 
@@ -26,10 +26,10 @@ pool.on('error', (err) => {
 async function testConnection() {
   try {
     const result = await pool.query('SELECT NOW()');
-    console.log('✓ Database connection test successful:', result.rows[0].now);
+    console.log('Database connection test successful:', result.rows[0].now);
     return true;
   } catch (error) {
-    console.error('✗ Database connection test failed:', error.message);
+    console.error('Database connection test failed:', error.message);
     return false;
   }
 }
