@@ -11,6 +11,8 @@ router.post('/import/dropbox', importController.importFromDropbox); // Bonus
 // ==================== Image Routes ====================
 router.get('/images', imageController.getAllImages);
 router.get('/images/:id', imageController.getImageById);
+router.delete('/images/:id', imageController.deleteImage);
+router.post('/images/sync', imageController.syncImages);
 
 // ==================== Job Status Routes ====================
 router.get('/jobs/:jobId', imageController.getJobStatus);

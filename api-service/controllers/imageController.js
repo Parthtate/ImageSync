@@ -1,5 +1,6 @@
 import { pool } from '../config/database.js';
 import { importQueue } from '../config/redis.js';
+import { deleteFileFromStorage, checkFileExists } from '../config/supabase.js';
 
 // GET /api/images
 export const getAllImages = async (req, res) => {
@@ -53,7 +54,7 @@ export const getAllImages = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Fetch images error:', error);
+    console.error('Fetch images error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to fetch images',
@@ -85,7 +86,7 @@ export const getImageById = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Fetch image error:', error);
+    console.error('Fetch image error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to fetch image',
@@ -129,7 +130,7 @@ export const getJobStatus = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Job status error:', error);
+    console.error('Job status error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to get job status',
@@ -174,10 +175,107 @@ export const getStats = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Stats error:', error);
+    console.error('Stats error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to get statistics',
+      message: error.message
+    });
+  }
+};
+
+// DELETE /api/images/:id
+export const deleteImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // 1. Get image details first
+    const result = await pool.query('SELECT * FROM images WHERE id = $1', [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'Image not found'
+      });
+    }
+
+    const image = result.rows[0];
+
+    // 2. Delete from Supabase Storage
+    // We attempt to delete even if verification fails, just to be sure
+    if (image.storage_path) {
+      await deleteFileFromStorage(image.storage_path);
+    }
+
+    // 3. Delete from Database
+    await pool.query('DELETE FROM images WHERE id = $1', [id]);
+
+    res.json({
+      success: true,
+      message: 'Image deleted successfully',
+      id
+    });
+
+  } catch (error) {
+    console.error('Delete image error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to delete image',
+      message: error.message
+    });
+  }
+};
+
+// POST /api/images/sync
+export const syncImages = async (req, res) => {
+  try {
+    console.log('🔄 Starting gallery sync...');
+    
+    // 1. Get all images from DB
+    const result = await pool.query('SELECT * FROM images');
+    const images = result.rows;
+    
+    const removedIds = [];
+    const errors = [];
+
+    // 2. Verify each image
+    // Process in batches to avoid overwhelming Supabase
+    const BATCH_SIZE = 5;
+    for (let i = 0; i < images.length; i += BATCH_SIZE) {
+      const batch = images.slice(i, i + BATCH_SIZE);
+      
+      await Promise.all(batch.map(async (img) => {
+        try {
+          const exists = await checkFileExists(img.storage_path);
+          
+          if (!exists) {
+            console.log(`🗑️ Found orphaned record: ${img.name} (ID: ${img.id})`);
+            await pool.query('DELETE FROM images WHERE id = $1', [img.id]);
+            removedIds.push(img.id);
+          }
+        } catch (err) {
+          console.error(`Error checking image ${img.id}:`, err);
+          errors.push({ id: img.id, error: err.message });
+        }
+      }));
+    }
+
+    res.json({
+      success: true,
+      message: `Sync complete. Removed ${removedIds.length} orphaned records.`,
+      data: {
+        totalChecked: images.length,
+        removedCount: removedIds.length,
+        removedIds,
+        errors: errors.length > 0 ? errors : undefined
+      }
+    });
+
+  } catch (error) {
+    console.error('Sync error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to sync gallery',
       message: error.message
     });
   }

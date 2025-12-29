@@ -62,6 +62,16 @@ export const getImages = async (source = '', limit = 100, offset = 0) => {
   return response.data;
 };
 
+export const deleteImage = async (id) => {
+  const response = await api.delete(`/images/${id}`);
+  return response.data;
+};
+
+export const syncImages = async () => {
+  const response = await api.post('/images/sync');
+  return response.data;
+};
+
 export const getJobStatus = async (jobId) => {
   const response = await api.get(`/jobs/${jobId}`);
   return response.data;
